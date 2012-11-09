@@ -1,4 +1,7 @@
 ExchangeRate::Application.routes.draw do
+  
+  resources :currencies
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
