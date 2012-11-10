@@ -11,5 +11,8 @@
 
 class Currency < ActiveRecord::Base
   has_many :rates
-  #attr_accessible :code, :name
+  attr_accessible :code, :name
+
+  scope :at_code, ->(code){where(code: code)}
+  scope :at_month, ->(date){where(month: date.beginning_of_month)}
 end
