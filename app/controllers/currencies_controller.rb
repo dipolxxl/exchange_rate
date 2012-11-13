@@ -13,6 +13,7 @@ class CurrenciesController < ApplicationController
 
   # GET /currencies.json?month=  or  GET /currencies.json?month=2012-12-21
   def index
+    # ToDo: подумать над лишними обращениями к бд
     @rates = Rate.at_month(@date)
     respond_with @rates
   end
