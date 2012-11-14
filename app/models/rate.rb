@@ -14,5 +14,7 @@ class Rate < ActiveRecord::Base
   belongs_to :currency
   attr_accessible :course, :month
 
-  scope :at_month, ->(date){where(month: date.beginning_of_month)}
+  private
+
+  scope :at_month, ->(date){includes(:currency).where(month: date.beginning_of_month)}
 end

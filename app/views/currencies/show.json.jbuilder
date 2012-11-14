@@ -1,1 +1,1 @@
-json.(@currency.first, :course)
+json.(@currency, :course)
