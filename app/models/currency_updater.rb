@@ -26,10 +26,52 @@ class CurrencyUpdater
       hash_with_rates        
     end
 
-    
+
+    def parsing_response_for_create
+      response = get_rates_in_xml
+      
+      if response.present?
+        hash_with_currencies = {}
+        response.each do |current_rate|
+          code = current_rate.xpath("VchCode").text
+          name = current_rate.xpath("Vname").text.rstrip!
+
+          hash_with_currencies[code] = name
+        end
+      else
+        puts "Error! No response from the cbr.ru"
+      end
+      hash_with_currencies       
+    end
+
+    def update_current_month
+      if Currency.count == 0
+        hash_with_currencies = parsing_response_for_create
+
+      else
+        hash_with_rates = parsing_response_for_update
+        if hash_with_rates.present?
+          date = Date.today.beginning_of_month
+          hash_with_rates.each do |code, course|
+            currency = Currency.where(code: code).first
+            rate = currency.rates.where(month: date).first
+
+            # это не правильно - подумать над реализацией
+            # if rate.present?
+            #   rate.update_attributes(course: course, month: date)
+            # else
+            #   currency.rates.create(course: course, month: date)
+            # end
+          end
+        else
+          puts "Error! No response from the cbr.ru"
+        end
+      end
+    end
+
 
     def some
-      puts parsing_response_for_update
+      puts update_current_month
     end
 
   end
