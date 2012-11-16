@@ -2,14 +2,20 @@ class CurrencyUpdater
   class << self
 
     def get_rates_in_xml(address)
-      client = Savon::Client.new(address)
-      response = client.request :web, :get_curs_on_date_xml,
-                 body: {"On_date" => Date.today}
-      response.xpath("//ValuteCursOnDate") if response.present?
+      begin
+        client = Savon::Client.new(address)
+        response = client.request :web, :get_curs_on_date_xml,
+                   body: {"On_date" => Date.today}
+        response = response.xpath("//ValuteCursOnDate") if response.present?
+      rescue
+        puts "CurrencyUpdater.get_rates_in_xml has error! Check the incoming address " +
+             "or internet connection. Expected 'WDSL' document."
+      end
+      response
     end
 
     def parsing_response_for_update(response)
-      if response.present?
+      begin
         hash_with_rates = {}
 
         response.each do |current_rate|
@@ -20,23 +26,26 @@ class CurrencyUpdater
 
           hash_with_rates[code] = course
         end
-      else
-        puts "Error! No response from the cbr.ru"
+      rescue
+        puts "CurrencyUpdater.parsing_response_for_update has error! " +
+             "No response or invalid response from the cbr.ru"
       end
       hash_with_rates
     end
 
     def parsing_response_for_create(response)
-      if response.present?
+      begin
         hash_with_currencies = {}
+
         response.each do |current_rate|
           code = current_rate.xpath("VchCode").text
           name = current_rate.xpath("Vname").text.rstrip!
 
           hash_with_currencies[code] = name
         end
-      else
-        puts "Error! No response from the cbr.ru"
+      rescue
+        puts "CurrencyUpdater.parsing_response_for_create has error! " +
+             "No response or invalid response from the cbr.ru"
       end
       hash_with_currencies
     end
