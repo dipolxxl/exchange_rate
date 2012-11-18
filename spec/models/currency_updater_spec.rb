@@ -1,4 +1,6 @@
+# encoding: UTF-8
 require 'spec_helper'
+require 'rake'
 
 describe CurrencyUpdater do
 
@@ -44,8 +46,25 @@ describe CurrencyUpdater do
 
     it "should not fill table for empty incoming hash" do
       hash = {}
-      CurrencyUpdater.fill_table_currencies(hash)}.to change{Currency.count}
+      expect{CurrencyUpdater.fill_table_currencies(hash)}.to_not change{Currency.count}
     end
   end
 
+  context "methods working with db" do
+
+    # before :each do
+    #   Rake::Task['test:prepare'].invoke
+    # end    
+
+    context ".update_rates" do
+      it "should return nil for empty incoming argument" do
+        hash_with_rates = {}
+        CurrencyUpdater.update_rates(hash_with_rates).should be_nil
+      end
+    end
+
+    context ".update_current_month" do
+      pending
+    end
+  end 
 end
