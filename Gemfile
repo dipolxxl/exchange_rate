@@ -21,7 +21,7 @@ group :assets do
   # gem 'therubyracer', :platforms => :ruby
 end
 
-group :test do
+group :test, :development do
   gem 'rspec-rails'
 end
 

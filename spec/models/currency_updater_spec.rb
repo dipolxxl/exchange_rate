@@ -21,16 +21,16 @@ describe CurrencyUpdater do
   end
 
   context ".parsing_response_for_update" do
-    it "should return nil for empty response" do
+    it "should return empty hash for empty response" do
       hash = CurrencyUpdater.parsing_response_for_update("")
       hash.size.should == 0
     end
 
-    it "should not return nil for valid response"
+    it "should not return empty hash for valid response"
   end
 
   context ".parsing_response_for_create" do
-    it "should return nil for empty response" do
+    it "should return empty hash for empty response" do
       hash = CurrencyUpdater.parsing_response_for_create("")
       hash.size.should == 0
     end
@@ -38,33 +38,49 @@ describe CurrencyUpdater do
     it "should not return nil for valid response"
   end
 
-  context ".fill_table_currencies" do
-    it "should fill table currencies correct values" do
-      hash = {"BYR" => "Белорусский рубль", "EUR" => "Евро", "USD" => "Доллар США"}
-      expect{CurrencyUpdater.fill_table_currencies(hash)}.to change{Currency.count}
-    end
-
-    it "should not fill table for empty incoming hash" do
-      hash = {}
-      expect{CurrencyUpdater.fill_table_currencies(hash)}.to_not change{Currency.count}
-    end
-  end
-
   context "methods working with db" do
 
     # before :each do
     #   Rake::Task['test:prepare'].invoke
-    # end    
+    # end 
 
-    context ".update_rates" do
-      it "should return nil for empty incoming argument" do
-        hash_with_rates = {}
-        CurrencyUpdater.update_rates(hash_with_rates).should be_nil
+    context ".fill_table_currencies" do
+      it "should fill table currencies correct values" do
+        hash = {"BYR" => "Белорусский рубль", "EUR" => "Евро", "USD" => "Доллар США"}
+        expect{CurrencyUpdater.fill_table_currencies(hash)}.to change{Currency.count}
+      end
+
+      it "should not fill table for empty incoming hash" do
+        hash = {}
+        expect{CurrencyUpdater.fill_table_currencies(hash)}.to_not change{Currency.count}
       end
     end
 
     context ".update_current_month" do
       pending
+      # db should be reset
+      #
+      # it "should fill table currencies if it's empty"
+      #   expect{CurrencyUpdater.update_current_month}.to change{Currency.count}
+      # end
+      #
+      # it "should not fill table currencies if it's not empty"
+      #   expect{CurrencyUpdater.update_current_month}.to_not change{Currency.count}
+      # end
+      #
+      # it "should update currency rates"
+      #   expect{CurrencyUpdater.update_current_month}.to ??
+      # end
+      #      
+    end
+
+    context ".update_rates" do
+      it "should return nil for empty incoming hash" do
+        hash_with_rates = {}
+        CurrencyUpdater.update_rates(hash_with_rates).should be_nil
+      end
+
+      it "should update rates values from incoming hash"
     end
   end 
 end
