@@ -4,7 +4,7 @@ require 'rake'
 
 describe CurrencyUpdater do
 
-  context ".get_rates_in_xml" do
+  describe ".get_rates_in_xml" do
     it "should return nil for empty query params" do
       CurrencyUpdater.get_rates_in_xml("").should be_nil
     end
@@ -20,7 +20,7 @@ describe CurrencyUpdater do
     end
   end
 
-  context ".parsing_response_for_update" do
+  describe ".parsing_response_for_update" do
     it "should return empty hash for empty response" do
       hash = CurrencyUpdater.parsing_response_for_update("")
       hash.size.should == 0
@@ -29,7 +29,7 @@ describe CurrencyUpdater do
     it "should not return empty hash for valid response"
   end
 
-  context ".parsing_response_for_create" do
+  describe ".parsing_response_for_create" do
     it "should return empty hash for empty response" do
       hash = CurrencyUpdater.parsing_response_for_create("")
       hash.size.should == 0
@@ -38,13 +38,13 @@ describe CurrencyUpdater do
     it "should not return nil for valid response"
   end
 
-  context "methods working with db" do
+  describe "methods working with db" do
 
     # before :each do
     #   Rake::Task['test:prepare'].invoke
     # end 
 
-    context ".fill_table_currencies" do
+    describe ". method fill_table_currencies" do
       it "should fill table currencies correct values" do
         hash = {"BYR" => "Белорусский рубль", "EUR" => "Евро", "USD" => "Доллар США"}
         expect{CurrencyUpdater.fill_table_currencies(hash)}.to change{Currency.count}
@@ -56,7 +56,7 @@ describe CurrencyUpdater do
       end
     end
 
-    context ".update_current_month" do
+    describe ". method update_current_month" do
       pending
       # db should be reset
       #
@@ -74,7 +74,7 @@ describe CurrencyUpdater do
       #      
     end
 
-    context ".update_rates" do
+    describe ". method update_rates" do
       it "should return nil for empty incoming hash" do
         hash_with_rates = {}
         CurrencyUpdater.update_rates(hash_with_rates).should be_nil
