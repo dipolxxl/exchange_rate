@@ -53,7 +53,9 @@ class CurrencyUpdater
     def fill_table_currencies(hash_with_currencies)
       if hash_with_currencies.present?
         hash_with_currencies.each do |code, name|
-          Currency.create(code: code, name: name)
+          unless Currency.with_code(code).present?
+            Currency.create(code: code, name: name)
+          end
         end
       else
         puts "Error! No response from the cbr.ru"
@@ -64,7 +66,7 @@ class CurrencyUpdater
       if hash_with_rates.present?
         date = Date.today.beginning_of_month
         hash_with_rates.each do |code, course|
-          currency = Currency.where(code: code).first
+          currency = Currency.with_code(code).first
           rate = currency.rates.where(month: date).first
 
           if rate.present?
@@ -82,10 +84,8 @@ class CurrencyUpdater
       address = "http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL"
       response = get_rates_in_xml(address)
 
-      if Currency.count == 0
-        hash_with_currencies = parsing_response_for_create(response)
-        fill_table_currencies(hash_with_currencies)
-      end
+      hash_with_currencies = parsing_response_for_create(response)
+      fill_table_currencies(hash_with_currencies)
 
       hash_with_rates = parsing_response_for_update(response)
       update_rates(hash_with_rates)
