@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.cbr.ru/DailyInfoWebServ/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      Content-Length:
+      - '58'
+      Content-Type:
+      - text/html
+      Server:
+      - Microsoft-IIS/7.0
+      X-Powered-By:
+      - ASP.NET
+      - ASP.NET
+      Date:
+      - Fri, 07 Dec 2012 09:30:53 GMT
+      Age:
+      - '204'
+      X-Cache:
+      - HIT from bsd.asu
+      Via:
+      - 1.0 bsd.asu (squid/3.0.STABLE13)
+      Proxy-Connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: You do not have permission to view this directory or page.
+    http_version: 
+  recorded_at: Fri, 07 Dec 2012 10:33:26 GMT
+recorded_with: VCR 2.3.0

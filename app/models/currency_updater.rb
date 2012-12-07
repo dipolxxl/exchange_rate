@@ -39,7 +39,7 @@ class CurrencyUpdater
 
         response.each do |current_rate|
           code = current_rate.xpath("VchCode").text
-          name = current_rate.xpath("Vname").text.rstrip!
+          name = current_rate.xpath("Vname").text.rstrip
 
           hash_with_currencies[code] = name
         end

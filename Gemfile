@@ -25,6 +25,11 @@ group :test, :development do
   gem 'rspec-rails'
 end
 
+group :test do
+  gem 'webmock', '1.8.11'
+  gem 'vcr'
+end
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
