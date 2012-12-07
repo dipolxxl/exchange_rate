@@ -33,7 +33,7 @@ describe CurrencyUpdater do
       # парсинг перенести в хелпер  
       # xml = test_xml("./spec/models/invalid_raw_response.xml")
       xml = (Nokogiri::XML::Document.parse(
-        File.read("./spec/models/invalid_raw_response.xml"), nil, "UTF-8"
+        File.read("./spec/xml/invalid_raw_response.xml"), nil, "UTF-8"
       ).xpath("//ValuteCursOnDate"))
 
       CurrencyUpdater.parsing_response_for_update(xml).should eql(Hash.new)
@@ -41,7 +41,7 @@ describe CurrencyUpdater do
 
     it "should return valid hash for valid response" do
       xml = (Nokogiri::XML::Document.parse(
-        File.read("./spec/models/raw_response.xml"), nil, "UTF-8"
+        File.read("./spec/xml/raw_response.xml"), nil, "UTF-8"
       ).xpath("//ValuteCursOnDate"))
 
       CurrencyUpdater.parsing_response_for_update(xml).should ==
@@ -56,7 +56,7 @@ describe CurrencyUpdater do
 
     it "should return empty hash for invalid response" do
       xml = (Nokogiri::XML::Document.parse(
-        File.read("./spec/models/invalid_raw_response.xml"), nil, "UTF-8"
+        File.read("./spec/xml/invalid_raw_response.xml"), nil, "UTF-8"
       ).xpath("//ValuteCursOnDate"))
 
       CurrencyUpdater.parsing_response_for_create(xml).should eql(Hash.new)
@@ -64,7 +64,7 @@ describe CurrencyUpdater do
 
     it "should return valid hash for valid response" do
       xml = (Nokogiri::XML::Document.parse(
-        File.read("./spec/models/raw_response.xml"), nil, "UTF-8"
+        File.read("./spec/xml/raw_response.xml"), nil, "UTF-8"
       ).xpath("//ValuteCursOnDate"))
 
       CurrencyUpdater.parsing_response_for_create(xml).should ==
