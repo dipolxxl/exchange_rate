@@ -21,7 +21,7 @@ class CurrenciesController < ApplicationController
       @date = params[:month].presence.try(:to_date) || Date.today
     rescue
       # ToDo: подумать над отловом типа ошибок!
-      render :text => "Invalid date format! Expected 'YYYY-MM-DD'."
+      render text: "Invalid date format! Expected 'YYYY-MM-DD'."
     end
   end
 end

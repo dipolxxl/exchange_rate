@@ -1,20 +1,20 @@
 class CurrencyUpdater
   class << self
 
-    def get_rates_in_xml(address)
+    def get_rates_in_xml address
       begin
-        client = Savon::Client.new(address)
+        client = Savon::Client.new address
         response = client.request :web, :get_curs_on_date_xml,
                    body: {"On_date" => Date.today}
         response = response.xpath("//ValuteCursOnDate") if response.present?
       rescue
-        puts "CurrencyUpdater.get_rates_in_xml has error! Check the incoming address " +
-             "or internet connection. Expected 'WDSL' document."
+        puts "CurrencyUpdater.get_rates_in_xml has error! Check the incoming" +
+             "address or internet connection. Expected 'WDSL' document."
       end
       response
     end
 
-    def parsing_response_for_update(response)
+    def parsing_response_for_update response
       begin
         hash_with_rates = {}
 
@@ -33,7 +33,7 @@ class CurrencyUpdater
       hash_with_rates
     end
 
-    def parsing_response_for_create(response)
+    def parsing_response_for_create response
       begin
         hash_with_currencies = {}
 
@@ -50,7 +50,7 @@ class CurrencyUpdater
       hash_with_currencies
     end
 
-    def fill_table_currencies(hash_with_currencies)
+    def fill_table_currencies hash_with_currencies
       if hash_with_currencies.present?
         hash_with_currencies.each do |code, name|
           unless Currency.with_code(code).present?
@@ -62,7 +62,7 @@ class CurrencyUpdater
       end
     end
 
-    def update_rates(hash_with_rates)
+    def update_rates hash_with_rates
       if hash_with_rates.present?
         date = Date.today.beginning_of_month
         hash_with_rates.each do |code, course|

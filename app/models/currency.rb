@@ -15,5 +15,5 @@ class Currency < ActiveRecord::Base
 
   private
 
-  scope :with_code, ->(code){where(code: code)}
+  scope :with_code, ->(code){where(code: code.upcase)}
 end

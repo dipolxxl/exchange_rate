@@ -1,6 +1,8 @@
 ExchangeRate::Application.routes.draw do
   
-  resources :currencies
+  resources :currencies, only: [:index, :show]
+  root :to => 'currencies#index'
+  match "*path" => redirect('/404.html')
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

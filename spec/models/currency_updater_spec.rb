@@ -30,14 +30,14 @@ describe CurrencyUpdater do
     end
 
     it "should return empty hash for invalid response" do
-      # парсинг перенести в хелпер  
+      # парсинг перенести в хелпер
       # xml = test_xml("./spec/models/invalid_raw_response.xml")
       xml = (Nokogiri::XML::Document.parse(
         File.read("./spec/xml/invalid_raw_response.xml"), nil, "UTF-8"
       ).xpath("//ValuteCursOnDate"))
 
       CurrencyUpdater.parsing_response_for_update(xml).should eql(Hash.new)
-    end    
+    end
 
     it "should return valid hash for valid response" do
       xml = (Nokogiri::XML::Document.parse(
@@ -83,8 +83,8 @@ describe CurrencyUpdater do
     end
 
     it "should fill empty table from incoming hash" do
-      expect{CurrencyUpdater.fill_table_currencies(@hash)}.
-        to change{Currency.count}.from(0).to(3)
+      expect{CurrencyUpdater.fill_table_currencies(@hash)
+        }.to change{Currency.count}.from(0).to(3)
     end
 
     context "should" do
@@ -100,7 +100,7 @@ describe CurrencyUpdater do
             "JPY" => "Японская иена"
           )}.to change{Currency.count}.from(3).to(4)
         end
-      end    
+      end
 
       context "not fill table" do
         it "if it's contain this currencies" do
@@ -114,7 +114,7 @@ describe CurrencyUpdater do
             }.to_not change{Currency.count}
         end
       end
-    end    
+    end
   end
 
   describe ".update_rates" do
@@ -130,15 +130,15 @@ describe CurrencyUpdater do
 
     context "should not update rates values" do
       it "for empty incoming hash" do
-        expect{CurrencyUpdater.update_rates({})}.
-                          to_not change{Currency.first.rates.first.course}
+        expect{CurrencyUpdater.update_rates({})
+          }.to_not change{Currency.first.rates.first.course}
       end
     end
 
     context "should update rates values" do
       it "from valid incoming hash" do
-        expect{CurrencyUpdater.update_rates({"USD"=>32.0})}.
-          to change{Currency.first.rates.first.course}.from(31.6).to(32.0)
+        expect{CurrencyUpdater.update_rates({"USD"=>32.0})
+          }.to change{Currency.first.rates.first.course}.from(31.6).to(32.0)
       end
     end
   end
