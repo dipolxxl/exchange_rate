@@ -1,5 +1,6 @@
 # encoding: UTF-8
 require 'spec_helper'
+require 'currency_helper'
 
 describe CurrencyUpdater do
   describe ".get_rates_in_xml" do
@@ -30,22 +31,15 @@ describe CurrencyUpdater do
     end
 
     it "should return empty hash for invalid response" do
-      # парсинг перенести в хелпер
-      # xml = test_xml("./spec/models/invalid_raw_response.xml")
-      xml = (Nokogiri::XML::Document.parse(
-        File.read("./spec/xml/invalid_raw_response.xml"), nil, "UTF-8"
-      ).xpath("//ValuteCursOnDate"))
-
-      CurrencyUpdater.parsing_response_for_update(xml).should eql(Hash.new)
+      CurrencyUpdater.parsing_response_for_update(
+        get_test_xml "./spec/xml/invalid_raw_response.xml"
+      ).should eql(Hash.new)
     end
 
     it "should return valid hash for valid response" do
-      xml = (Nokogiri::XML::Document.parse(
-        File.read("./spec/xml/raw_response.xml"), nil, "UTF-8"
-      ).xpath("//ValuteCursOnDate"))
-
-      CurrencyUpdater.parsing_response_for_update(xml).should ==
-        {"USD" => 32.0}
+      CurrencyUpdater.parsing_response_for_update(
+        get_test_xml "./spec/xml/raw_response.xml"
+      ).should eql({"USD" => 32.0})
     end
   end
 
@@ -55,20 +49,15 @@ describe CurrencyUpdater do
     end
 
     it "should return empty hash for invalid response" do
-      xml = (Nokogiri::XML::Document.parse(
-        File.read("./spec/xml/invalid_raw_response.xml"), nil, "UTF-8"
-      ).xpath("//ValuteCursOnDate"))
-
-      CurrencyUpdater.parsing_response_for_create(xml).should eql(Hash.new)
+      CurrencyUpdater.parsing_response_for_create(
+        get_test_xml "./spec/xml/invalid_raw_response.xml"
+      ).should eql(Hash.new)
     end   
 
     it "should return valid hash for valid response" do
-      xml = (Nokogiri::XML::Document.parse(
-        File.read("./spec/xml/raw_response.xml"), nil, "UTF-8"
-      ).xpath("//ValuteCursOnDate"))
-
-      CurrencyUpdater.parsing_response_for_create(xml).should ==
-        {"USD" => "Доллар США"}
+      CurrencyUpdater.parsing_response_for_create(
+        get_test_xml "./spec/xml/raw_response.xml"
+      ).should eql({"USD" => "Доллар США"})
     end
   end
 
@@ -79,7 +68,7 @@ describe CurrencyUpdater do
               "BYR" => "Белорусский рубль",
               "EUR" => "Евро",
               "USD" => "Доллар США"
-             }
+      }
     end
 
     it "should fill empty table from incoming hash" do
