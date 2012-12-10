@@ -4,24 +4,26 @@ require 'currency_helper'
 
 describe CurrencyUpdater do
   describe ".get_rates_in_xml" do
-    it "should return nil for empty query params" do
-      VCR.use_cassette('empty_request_in_the_cbr') do
-        CurrencyUpdater.get_rates_in_xml("").should be_nil
-      end
+    it "should return nil for empty query params",
+       vcr: { :cassette_name => "empty_request_in_the_cbr" } do
+
+      CurrencyUpdater.get_rates_in_xml("").should be_nil
     end
 
-    it "should return nil for invalid query params" do
-      VCR.use_cassette('invalid_request_in_the_cbr') do
-        CurrencyUpdater.get_rates_in_xml(
-          "http://www.cbr.ru/DailyInfoWebServ/").should be_nil
-      end
+    it "should return nil for invalid query params",
+       vcr: { :cassette_name => "invalid_request_in_the_cbr" } do
+
+      CurrencyUpdater.get_rates_in_xml(
+        "http://www.cbr.ru/DailyInfoWebServ/"
+      ).should be_nil
     end
 
-    it "should not return nil for valid query params" do
-      VCR.use_cassette('valid_request_in_the_cbr') do
-        CurrencyUpdater.get_rates_in_xml(
-          "http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL").should be
-      end
+    it "should not return nil for valid query params",
+       vcr: { :cassette_name => "valid_request_in_the_cbr" } do
+
+      CurrencyUpdater.get_rates_in_xml(
+        "http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL"
+      ).should be
     end
   end
 
@@ -72,8 +74,8 @@ describe CurrencyUpdater do
     end
 
     it "should fill empty table from incoming hash" do
-      expect{CurrencyUpdater.fill_table_currencies(@hash)
-        }.to change{Currency.count}.from(0).to(3)
+      expect{CurrencyUpdater.fill_table_currencies(@hash)}
+        .to change{Currency.count}.from(0).to(3)
     end
 
     context "should" do
@@ -99,8 +101,8 @@ describe CurrencyUpdater do
         end
 
         it "if incoming hash is empty" do
-          expect{CurrencyUpdater.fill_table_currencies({})
-            }.to_not change{Currency.count}
+          expect{ CurrencyUpdater.fill_table_currencies({}) }
+            .to_not change{Currency.count}
         end
       end
     end
@@ -119,15 +121,15 @@ describe CurrencyUpdater do
 
     context "should not update rates values" do
       it "for empty incoming hash" do
-        expect{CurrencyUpdater.update_rates({})
-          }.to_not change{Currency.first.rates.first.course}
+        expect{ CurrencyUpdater.update_rates({}) }
+          .to_not change{Currency.first.rates.first.course}
       end
     end
 
     context "should update rates values" do
       it "from valid incoming hash" do
-        expect{CurrencyUpdater.update_rates({"USD"=>32.0})
-          }.to change{Currency.first.rates.first.course}.from(31.6).to(32.0)
+        expect{ CurrencyUpdater.update_rates({"USD"=>32.0}) }
+          .to change{Currency.first.rates.first.course}.from(31.6).to(32.0)
       end
     end
   end
