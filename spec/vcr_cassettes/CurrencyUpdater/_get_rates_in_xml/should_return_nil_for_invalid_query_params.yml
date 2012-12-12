@@ -1,0 +1,35 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.cbr.ru/DailyInfoWebServ/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      Content-Length:
+      - '58'
+      Content-Type:
+      - text/html
+      Server:
+      - Microsoft-IIS/7.0
+      X-Powered-By:
+      - ASP.NET
+      - ASP.NET
+      Date:
+      - Wed, 12 Dec 2012 18:56:58 GMT
+    body:
+      encoding: US-ASCII
+      string: You do not have permission to view this directory or page.
+    http_version: 
+  recorded_at: Wed, 12 Dec 2012 18:56:27 GMT
+recorded_with: VCR 2.3.0

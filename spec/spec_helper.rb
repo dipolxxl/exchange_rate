@@ -12,6 +12,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 RSpec.configure do |config|
   WebMock.disable_net_connect!
   require 'vcr'
+  config.treat_symbols_as_metadata_keys_with_true_values = true
   VCR.configure do |c|   
     c.hook_into :webmock
     c.cassette_library_dir = 'spec/vcr_cassettes'
