@@ -7,9 +7,9 @@ describe CurrenciesController do
   describe 'GET :index' do
     before do
       Rate.stub(:at_month).and_return([
-        FactoryGirl.build_stubbed(:rate),
-        FactoryGirl.build_stubbed(:rate),
-        FactoryGirl.build_stubbed(:rate)
+        FactoryGirl.build_stubbed(:rate_sequence),
+        FactoryGirl.build_stubbed(:rate_sequence),
+        FactoryGirl.build_stubbed(:rate_sequence)
       ])
     end
 
@@ -18,7 +18,7 @@ describe CurrenciesController do
 
       response.should be_success
       response.content_type.should == Mime::JSON
-      response.body.should == '[{"code":"USD1","course":30.3},{"code":"USD2","course":30.3},{"code":"USD3","course":30.3}]'
+      response.body.should == '[{"code":"USD1","course":31.3},{"code":"USD2","course":32.3},{"code":"USD3","course":33.3}]'
     end
   end
 
