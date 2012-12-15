@@ -15,9 +15,12 @@ describe CurrencyUpdater do
     end
 
     it "should not return nil for valid query params" do
-      CurrencyUpdater.get_rates_in_xml(
+      response = CurrencyUpdater.get_rates_in_xml(
         "http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL"
-      ).should be
+      )
+      response.should be_kind_of(Nokogiri::XML::NodeSet)
+      response.at_xpath("Vname").text.should =~ /Австралийский доллар/
+      # response.empty?.should_not be
     end
   end
 
