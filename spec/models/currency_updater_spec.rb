@@ -19,8 +19,8 @@ describe CurrencyUpdater do
         "http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL"
       )
       response.should be_kind_of(Nokogiri::XML::NodeSet)
-      response.at_xpath("Vname").text.should =~ /Австралийский доллар/
-      # response.empty?.should_not be
+      response.at_xpath("Vname").text.should be_kind_of(String)
+      response.at_xpath("VchCode").text.should be_kind_of(String)
     end
   end
 

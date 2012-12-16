@@ -36,4 +36,38 @@ describe CurrenciesController do
       response.body.should == '{"course":30.3}'
     end
   end
+
+  describe 'GET :edit' do
+    it 'should be failure' do
+      expect{get :edit, format: :json}.
+        to raise_error(ActionController::RoutingError)
+    end
+  end
+
+  describe 'GET :new' do
+    it 'should be failure' do
+      expect{get :new}.to raise_error(ActionController::RoutingError)
+    end
+  end
+
+  describe 'POST :create' do
+    it 'should be failure' do
+      expect{post :create, format: :json}.
+        to raise_error(ActionController::RoutingError)
+    end
+  end
+
+  describe 'POST :update' do
+    it 'should be failure' do
+      expect{post :update, format: :json}.
+        to raise_error(ActionController::RoutingError)
+    end
+  end
+
+  describe 'DELETE :destroy' do
+    it 'should be failure' do
+      expect{delete :destroy, format: :json}.
+        to raise_error(ActionController::RoutingError)
+    end
+  end
 end
