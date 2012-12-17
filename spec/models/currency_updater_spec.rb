@@ -20,7 +20,8 @@ describe CurrencyUpdater do
       )
       response.should be_kind_of(Nokogiri::XML::NodeSet)
       response.at_xpath("Vname").text.should =~ /\A[а-я\s]+\z/i
-      #response.at_xpath("Vnom").text.to_i.should =~ /\A[1-9]+\z/
+      response.at_xpath("Vnom").text.should =~  /\A[0-9]+\z/
+      response.at_xpath("Vcurs").text.should =~ /\A[0-9.]+\z/
       response.at_xpath("VchCode").text.should =~ /\A[A-Z]+\z{3}/
     end
   end

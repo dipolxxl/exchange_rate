@@ -81,14 +81,17 @@ class CurrencyUpdater
     end
 
     def update_current_month
-      address = "http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL"
-      response = get_rates_in_xml(address)
+      response = get_rates_in_xml(
+        "http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL"
+      )
 
-      hash_with_currencies = parsing_response_for_create(response)
-      fill_table_currencies(hash_with_currencies)
+      fill_table_currencies(
+        parsing_response_for_create(response)
+      )
 
-      hash_with_rates = parsing_response_for_update(response)
-      update_rates(hash_with_rates)
+      update_rates(
+        parsing_response_for_update(response)
+      )
     end
   end
 end
