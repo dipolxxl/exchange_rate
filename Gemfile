@@ -29,6 +29,7 @@ group :test do
   gem 'webmock', '1.8.11'
   gem 'vcr'
   gem 'factory_girl_rails'
+  gem 'spork-rails'
 end
 
 
