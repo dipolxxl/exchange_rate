@@ -3,13 +3,13 @@ class CurrencyUpdater
 
     def get_rates_in_xml address
       begin
-        client = Savon::Client.new address
-        response = client.request :web, :get_curs_on_date_xml,
-                   body: {"On_date" => Date.today}
+        client = Savon.client(wsdl: address)
+        response = client.call(:get_curs_on_date_xml,
+                   message: { "On_date" => Date.today })
         response = response.xpath("//ValuteCursOnDate") if response.present?
       rescue
         puts "CurrencyUpdater.get_rates_in_xml has error! Check the incoming" +
-             "address or internet connection. Expected 'WDSL' document."
+             " address or internet connection. Expected 'WDSL' document."
       end
       response
     end
