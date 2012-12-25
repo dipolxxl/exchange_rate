@@ -1,8 +1,8 @@
-# if name not 'currency' must be the same "factory :not_currency, class: Currency do" 
+# if name not 'currency' must be the same "factory :not_currency, class: Currency do"
 FactoryGirl.define do
   factory :currency do
     sequence(:code) {|n| "USD#{n}"}
-    name  "US Dollar"
+    name  'US Dollar'
   end
 end
 
@@ -10,7 +10,7 @@ FactoryGirl.define do
   factory :rate do
     course      30.3
     month       Date.today
-    association :currency, code: "USD"
+    association :currency, code: 'USD'
   end
 end
 

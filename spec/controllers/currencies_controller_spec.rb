@@ -18,7 +18,8 @@ describe CurrenciesController do
 
       response.should be_success
       response.content_type.should == Mime::JSON
-      response.body.should == '[{"code":"USD1","course":31.3},{"code":"USD2","course":32.3},{"code":"USD3","course":33.3}]'
+      response.body.should eql('[{"code":"USD1","course":31.3},' +
+        '{"code":"USD2","course":32.3},{"code":"USD3","course":33.3}]')
     end
   end
 
@@ -29,11 +30,11 @@ describe CurrenciesController do
     end
 
     it 'should be successful' do
-      get :show, id: "USD", format: :json
+      get :show, id: 'USD', format: :json
 
       response.should be_success
       response.content_type.should == Mime::JSON
-      response.body.should == '{"course":30.3}'
+      response.body.should eql('{"course":30.3}')
     end
   end
 
